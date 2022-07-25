@@ -1,17 +1,37 @@
 <?php
 require_once 'utils.php';
-if (isset($_POST["submit"])) {
+session_start();
 
-    $taskName =  htmlspecialchars($_POST["task"]);
-    createTodo($dbConnection, $taskName);
+
+if ($_SESSION["email"]) {
+    if (isset($_POST["submit"])) {
+
+        $taskName =  htmlspecialchars($_POST["task"]);
+        createTodo($dbConnection, $taskName);
+    }
+
+    if (isset($_GET['delete']) && isset($_GET['id'])) {
+        $id = mysqli_real_escape_string($dbConnection, $_GET["id"]);
+        // echo "<script type='text/javascript'>confirm('Are you sure you want to delete?')</script>";
+        echo $id;
+        deleteTodo($dbConnection, $id);
+    }
+
+    if (isset($_GET['completed']) && isset($_GET['id'])) {
+        $id = mysqli_real_escape_string($dbConnection, $_GET["id"]);
+        echo $id;
+        completeTodo($dbConnection, $id);
+    }
+
+    if (isset($_GET['undoComplete']) && isset($_GET['id'])) {
+        $id = mysqli_real_escape_string($dbConnection, $_GET["id"]);
+        echo $id;
+        undoCompleteTodo($dbConnection, $id);
+    }
+} else {
+    header("Location: login.php");
 }
 
-if (isset($_GET['delete']) && isset($_GET['id'])) {
-    $id = mysqli_real_escape_string($dbConnection, $_GET["id"]);
-    // echo "<script type='text/javascript'>confirm('Are you sure you want to delete?')</script>";
-    echo $id;
-    deleteTodo($dbConnection, $id);
-}
 ?>
 
 <!DOCTYPE html>
@@ -32,15 +52,22 @@ if (isset($_GET['delete']) && isset($_GET['id'])) {
         <br />
         <form id="new-task-form" action="todo.php" method="post">
             <input type="text" name="task" id="new-task-input" placeholder="What do you have planned?" required width="70%" />
-            &nbsp; &nbsp;
-            <input type="submit" name="submit" id="new-task-submit" value="ADD NEW TASK" />
+            <div class="d-flex justify-content-center align-items-center ml-2">
+                <input type="submit" name="submit" id="new-task-submit" value="ADD NEW TASK" />
+
+                <ion-icon name="add-circle-outline" class="add-icon"></ion-icon>
+
+            </div>
+
         </form>
-        <div>
+        <div class="text-white">
             <?php include("./templates/viewTodos.php") ?>
         </div>
     </header>
 
 
 </body>
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
 </html>

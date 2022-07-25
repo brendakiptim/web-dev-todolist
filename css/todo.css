@@ -26,12 +26,17 @@ button {
   padding: 1rem;
   font-size: 01.25;
   background-color: var(--darker);
+  color: white;
+
+}
+input{
+  width: 100%;
 }
 #new-task-input::placeholder {
   color: var(--gray);
   width: 50%;
 }
-#new-task-submit {
+#new-task-submit, .add-icon {
   color: var(--pink);
   font-size: 1.25rem;
   font-weight: 700;
@@ -43,13 +48,16 @@ button {
 }
 main {
   flex: 1 1 0%;
-  padding: 2rem 1rem;
+  padding: 4rem 0rem;
   max-width: 800px;
   width: 100%;
   margin: 0 auto;
 }
 .task-list {
   /* padding: 2rem; */
+}
+.task-list hr{
+  background-color: var(--gray);
 }
 .task-list h2 {
   font-size: 1.5rem;
@@ -71,7 +79,21 @@ main {
   width: 100%;
   display: block;
   transition: 0.4s;
+  display: none;
 }
 .todo-card{
-   background:#60396B !important;
+  background: var(--gray);
+   padding:1rem;
+   border-radius: 5px;
+}
+
+.completed-task{
+  background-color: var(--darkest);
+}
+.completed-task input{
+  text-decoration: line-through;
+}
+ion-icon{
+  height: 20px;
+  width: 20px;
 }
